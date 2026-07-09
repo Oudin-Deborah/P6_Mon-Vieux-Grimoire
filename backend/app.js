@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
-const port = 3000;
 
+app.use((req,res)=>{
+    res.json({message:"Votre requete a bien été reçue"})
+})
 module.exports = app;
