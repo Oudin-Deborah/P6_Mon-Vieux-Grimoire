@@ -1,7 +1,14 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const books = require("../public/data/data.json");
 app.use(express.json());
+
+const mongoose = require("mongoose");
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("Connexion à MongoDB réussie !"))
+  .catch((err) => console.log("Connexion à MongoDB échouée !", err));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
