@@ -1,13 +1,19 @@
 const mongoose = require("mongoose");
-const { number } = require("prop-types");
 
 const bookSchema = mongoose.Schema({
-  userId: { type: String, require: true },
-  title: { type: String, require: true },
-  author: { type: String, require: true },
+  userId:{type:String, require: false},
+  title: { type: String, require: false },
+  author: { type: String, require: false },
   imageUrl: { type: String, require: false },
-  year: { type: number, require: true },
-  genre: { type: String, require: true },
-  ratings: { type: number, require: true },
+  year: { type: Number, require: false },
+  genre: { type: String, require: false },
+  ratings: [
+    {
+      userId: { type: String, require: false },
+      grade: { type: Number, require: false },
+    },
+  ],
+  averageRating: { type: Number, require: false },
 });
+
 module.exports = mongoose.model("Book", bookSchema);
