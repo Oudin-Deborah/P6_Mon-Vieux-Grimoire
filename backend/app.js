@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const bookRoads = require("./roads/books");
+const userRoad = require("./roads/user");
+
 app.use(express.json());
 const mongoose = require("mongoose");
 mongoose
@@ -13,7 +15,7 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization",
+    "Origin, X-Requested-With, Content-Type, Accept",
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -21,6 +23,8 @@ app.use((req, res, next) => {
   );
   next();
 });
+
 app.use("/api/books", bookRoads);
+app.use("/api/auth", userRoad);
 
 module.exports = app;
