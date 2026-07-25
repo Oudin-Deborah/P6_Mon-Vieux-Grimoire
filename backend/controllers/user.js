@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/users");
 
 exports.signup = (req, res, next) => {
+  delete req.body._id;
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
