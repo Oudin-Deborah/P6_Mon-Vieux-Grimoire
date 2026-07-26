@@ -3,11 +3,11 @@ const router = express.Router();
 const Book = require("../models/books_schema");
 const bookCtrl = require("../controllers/books");
 const auth = require("../middleware/auth");
+const multer = require("../middleware/multer-config");
 
-router.post("/", auth, bookCtrl.createBook);
-router.put("/:_id", auth, bookCtrl.modifyBook);
+router.post("/", auth, multer, bookCtrl.createBook);
+router.put("/:_id", auth, multer, bookCtrl.modifyBook);
 router.delete("/:_id", auth, bookCtrl.deleteBook);
-router.get("/:_id", auth, bookCtrl.findOneBook);
-router.get("/" + "", auth, bookCtrl.findBooks);
-
+router.get("/", bookCtrl.findBooks);
+router.get("/:_id", bookCtrl.findOneBook);
 module.exports = router;
