@@ -1,5 +1,8 @@
 const { JsonWebTokenError } = require("jsonwebtoken");
 const Book = require("../models/books_schema");
+const books_schema = require("../models/books_schema");
+const fs = require("fs");
+const { error } = require("console");
 
 exports.createBook = (req, res, next) => {
   const bookObject = JSON.parse(req.body.book);
@@ -51,9 +54,24 @@ exports.modifyBook = (req, res, next) => {
 };
 
 exports.deleteBook = (req, res, next) => {
-  Book.deleteOne({ _id: req.params._id }, { ...req.body, _id: req.params._id })
-    .then(() => res.status(200).json({ message: "Livre supprimé" }))
-    .catch((error) => res.status(404).json({ error }));
+  Book.findOne({ _id: req.params._id })
+    .then((book) => {
+      if (book.userId != req.auth.userId) {
+        res.status(400).json({ message: error.message });
+      } else {
+        const filename = book.imageUrl.split("/images/")[1];
+        fs.unlink(`images/${filename}`, () => {
+          Book.deleteOne({ _id: req.params._id })
+            .then(() => {
+              res.status(200).json({ message: "Livre supprimé" });
+            })
+            .catch((error) => res.status(401).json({ message: error.message }));
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(400).json({ message: error.message });
+    });
 };
 
 exports.findOneBook = (req, res, next) => {
