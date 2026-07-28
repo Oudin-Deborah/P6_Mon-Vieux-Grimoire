@@ -4,9 +4,10 @@ const Book = require("../models/books_schema");
 const bookCtrl = require("../controllers/books");
 const auth = require("../middleware/auth");
 const multer = require("../middleware/multer-config");
+const sharp = require("../middleware/sharp-config");
 
-router.post("/", auth, multer, bookCtrl.createBook);
-router.put("/:_id", auth, multer, bookCtrl.modifyBook);
+router.post("/", auth, multer, sharp.sharp, bookCtrl.createBook);
+router.put("/:_id", auth, multer, sharp.sharp, bookCtrl.modifyBook);
 router.delete("/:_id", auth, multer, bookCtrl.deleteBook);
 router.get("/", bookCtrl.findBooks);
 router.get("/:_id", bookCtrl.findOneBook);

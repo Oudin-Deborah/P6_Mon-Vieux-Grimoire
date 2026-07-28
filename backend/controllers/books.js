@@ -3,6 +3,7 @@ const Book = require("../models/books_schema");
 const books_schema = require("../models/books_schema");
 const fs = require("fs");
 const { error } = require("console");
+const sharp = require("../middleware/sharp-config");
 
 exports.createBook = (req, res, next) => {
   const bookObject = JSON.parse(req.body.book);
@@ -24,12 +25,6 @@ exports.createBook = (req, res, next) => {
 };
 
 exports.modifyBook = (req, res, next) => {
-  const bookObject = req.file
-    ? {
-        ...JSON.parse(req.body.book),
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-      }
-    : { ...req.body };
   delete bookObject._userId;
   Book.findOne({ _id: req.params._id })
     .then((book) => {
