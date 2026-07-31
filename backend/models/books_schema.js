@@ -14,7 +14,9 @@ const bookSchema = mongoose.Schema(
         grade: { type: Number, require: true },
       },
     ],
+    averageRating: { type: Number, default: 0 },
   },
+
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
